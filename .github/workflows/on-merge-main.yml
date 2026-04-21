@@ -42,7 +42,7 @@ jobs:
         working-directory: ./terraform/synthetics
           
       - name: Terraform Plan
-        run: terraform plan -no-color -out=tfplan
+        run: terraform plan -no-color -out=tfplan 2>&1 | tee plan_output.txt
         working-directory: ./terraform/synthetics
         env:
           TF_VAR_grafana_service_token: ${{ secrets.GRAFANA_SERVICE_TOKEN }}
