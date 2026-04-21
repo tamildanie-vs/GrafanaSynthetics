@@ -384,6 +384,7 @@ resource "grafana_contact_point" "synthetic_monitoring_alerts" {
 resource "grafana_notification_policy" "synthetic_monitoring" {
   group_by      = ["alertname", "grafana_folder"]
   contact_point = grafana_contact_point.synthetic_monitoring_alerts.name
+  depends_on = [grafana_contact_point.synthetic_monitoring_alerts]
 
   group_wait      = "10s"
   group_interval  = "5m"
