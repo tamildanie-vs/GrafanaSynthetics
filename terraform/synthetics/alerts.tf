@@ -361,6 +361,25 @@ resource "grafana_folder" "synthetic_monitoring_alerts" {
   title = "Synthetic Monitoring Alerts"
 }
 
+# Step:7 Contact point for synthetic monitoring alerts
+resource "grafana_contact_point" "synthetic_monitoring_alerts" {
+  name = "synthetic-monitoring-alerts"
+
+  email {
+    addresses = ["tamildanie@gmail.com"]
+    subject   = "Grafana Synthetic Monitoring Alert"
+    message   = <<-EOT
+      Alert: {{ .GroupLabels.alertname }}
+      
+      {{ range .Alerts }}
+      Summary: {{ .Annotations.summary }}
+      Description: {{ .Annotations.description }}
+      Labels: {{ range .Labels.SortedPairs }}{{ .Name }}={{ .Value }} {{ end }}
+      {{ end }}
+    EOT
+  }
+}
+
 # Step 7: Create a notification policy for these alerts
 resource "grafana_notification_policy" "synthetic_monitoring" {
   group_by      = ["alertname", "grafana_folder"]
@@ -383,21 +402,4 @@ resource "grafana_notification_policy" "synthetic_monitoring" {
   }
 }
 
-# Step:7 Contact point for synthetic monitoring alerts
-resource "grafana_contact_point" "synthetic_monitoring_alerts" {
-  name = "synthetic-monitoring-alerts"
 
-  email {
-    addresses = ["tamildanie@gmail.com"]
-    subject   = "Grafana Synthetic Monitoring Alert"
-    message   = <<-EOT
-      Alert: {{ .GroupLabels.alertname }}
-      
-      {{ range .Alerts }}
-      Summary: {{ .Annotations.summary }}
-      Description: {{ .Annotations.description }}
-      Labels: {{ range .Labels.SortedPairs }}{{ .Name }}={{ .Value }} {{ end }}
-      {{ end }}
-    EOT
-  }
-}
