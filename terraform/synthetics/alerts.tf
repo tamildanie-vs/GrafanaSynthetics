@@ -2,7 +2,7 @@
 
 # Data source for Synthetic Monitoring metrics
 data "grafana_data_source" "prometheus" {
-  name = "grafanacloud-gjvengelen-prom"
+  name = "grafanacloud-tamildanie-prom"
 }
 
 resource "grafana_rule_group" "synthetic_monitoring_alerts" {
