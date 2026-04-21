@@ -366,7 +366,7 @@ resource "grafana_contact_point" "synthetic_monitoring_alerts" {
   name = "synthetic-monitoring-alerts"
 
   email {
-    addresses = ["tamildanie@gmail.com"]
+    addresses = "tamildanie@gmail.com"
     subject   = "Grafana Synthetic Monitoring Alert"
     message   = <<-EOT
       Alert: {{ .GroupLabels.alertname }}
